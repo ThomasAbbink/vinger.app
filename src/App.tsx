@@ -11,9 +11,10 @@ function App() {
   const [winner, setWinner] = useState<number | null>(null);
   const { getColor, resetColors } = useColors();
 
-  const onChange = (event) => {
+  const onChange = (event: React.SyntheticEvent) => {
     event.preventDefault();
     if (winner === null) {
+      //@ts-expect-error react is dumb
       setTouches(event.touches);
     }
   };
@@ -36,7 +37,7 @@ function App() {
   useEffect(() => {
     setCount(3);
     if (winner === null) {
-      if (touches?.length > 1) {
+      if (touches && touches?.length > 1) {
         setIsCountingDown(true);
       } else {
         setIsCountingDown(false);
@@ -53,9 +54,9 @@ function App() {
   }, [winner]);
 
   useEffect(() => {
-    if (count === 0) {
+    if (count === 0 && touches?.length !== undefined) {
       setIsCountingDown(false);
-      const winner = Math.floor(Math.random() * touches?.length);
+      const winner = Math.floor(Math.random() * touches?.length || 0);
       setWinner(winner);
     }
   }, [count, touches?.length]);
@@ -80,6 +81,7 @@ function App() {
               style={{
                 left: touch.clientX,
                 top: touch.clientY,
+                //@ts-expect-error this does work
                 "--bgColor": getColor(index),
               }}
             ></div>

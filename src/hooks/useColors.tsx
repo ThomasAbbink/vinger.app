@@ -5,7 +5,7 @@ export const useColors = () => {
 
   const getColor = (index: string): string => {
     if (pickedColors.current.has(index)) {
-      return pickedColors.current.get(index);
+      return pickedColors.current.get(index) || "";
     }
     const availableColors = colors.filter((color) => {
       return !Array.from(pickedColors.current.values()).includes(color);
