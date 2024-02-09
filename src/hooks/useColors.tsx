@@ -1,0 +1,147 @@
+import { useRef } from "react";
+
+export const useColors = () => {
+  const pickedColors = useRef<Map<string, string>>(new Map());
+
+  const getColor = (index: string): string => {
+    if (pickedColors.current.has(index)) {
+      return pickedColors.current.get(index);
+    }
+    const availableColors = colors.filter((color) => {
+      return !Array.from(pickedColors.current.values()).includes(color);
+    });
+    const color =
+      availableColors[Math.floor(Math.random() * availableColors.length)];
+    pickedColors.current.set(index, color);
+
+    return color;
+  };
+
+  const resetColors = () => {
+    pickedColors.current = new Map();
+  };
+
+  return { getColor, resetColors };
+};
+
+const colors = [
+  "aqua",
+  "aquamarine",
+  "blanchedalmond",
+  "blue",
+  "blueviolet",
+  "brown",
+  "cadetblue",
+  "chartreuse",
+  "chocolate",
+  "coral",
+  "cornflowerblue",
+  "cornsilk",
+  "crimson",
+  "cyan",
+  "darkblue",
+  "darkcyan",
+  "darkgoldenrod",
+  "darkgreen",
+  "darkkhaki",
+  "darkmagenta",
+  "darkolivegreen",
+  "darkorange",
+  "darkorchid",
+  "darkred",
+  "darksalmon",
+  "darkseagreen",
+  "darkslateblue",
+  "darkturquoise",
+  "darkviolet",
+  "deeppink",
+  "deepskyblue",
+  "dimgray",
+  "dimgrey",
+  "dodgerblue",
+  "firebrick",
+  "floralwhite",
+  "forestgreen",
+  "fuchsia",
+  "gainsboro",
+  "ghostwhite",
+  "gold",
+  "goldenrod",
+  "green",
+  "greenyellow",
+  "hotpink",
+  "indianred",
+  "indigo",
+  "lavender",
+  "lawngreen",
+  "lemonchiffon",
+  "lightblue",
+  "lightcoral",
+  "lightcyan",
+  "lightgoldenrodyellow",
+  "lightgreen",
+  "lightpink",
+  "lightsalmon",
+  "lightseagreen",
+  "lightskyblue",
+  "lightslategray",
+  "lightslategrey",
+  "lightsteelblue",
+  "lime",
+  "limegreen",
+  "magenta",
+  "maroon",
+  "mediumaquamarine",
+  "mediumblue",
+  "mediumorchid",
+  "mediumpurple",
+  "mediumseagreen",
+  "mediumslateblue",
+  "mediumspringgreen",
+  "mediumturquoise",
+  "mediumvioletred",
+  "midnightblue",
+  "mistyrose",
+  "moccasin",
+  "navajowhite",
+  "navy",
+  "olive",
+  "olivedrab",
+  "orange",
+  "orangered",
+  "orchid",
+  "palegoldenrod",
+  "palegreen",
+  "paleturquoise",
+  "palevioletred",
+  "papayawhip",
+  "peachpuff",
+  "peru",
+  "pink",
+  "plum",
+  "powderblue",
+  "purple",
+  "rebeccapurple",
+  "red",
+  "rosybrown",
+  "royalblue",
+  "saddlebrown",
+  "salmon",
+  "sandybrown",
+  "seagreen",
+  "sienna",
+  "silver",
+  "skyblue",
+  "slateblue",
+  "springgreen",
+  "steelblue",
+  "tan",
+  "teal",
+  "thistle",
+  "tomato",
+  "turquoise",
+  "violet",
+  "wheat",
+  "yellow",
+  "yellowgreen",
+];

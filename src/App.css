@@ -1,0 +1,59 @@
+#root {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.play-area {
+  background: rgb(23, 9, 4);
+  inset: 0;
+  position: absolute;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle {
+  --bgColor: "white";
+  border-radius: 99999px;
+  background: var(--bgColor);
+  width: 8rem;
+  height: 8rem;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.count {
+  font-size: 8rem;
+}
+
+.text {
+  z-index: 99;
+  text-shadow: white 0 0 10px;
+  user-select: none;
+  cursor: none;
+  color: "white";
+}
+
+.winner {
+  animation: pulsate 1s infinite ease-in-out alternate;
+}
+
+.neon {
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #bc13fe,
+    0 0 0.8rem #bc13fe, 0 0 2.8rem #bc13fe, inset 0 0 1.3rem #bc13fe;
+}
+
+@keyframes pulsate {
+  0% {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  100% {
+    width: 10rem;
+    height: 10rem;
+  }
+}
