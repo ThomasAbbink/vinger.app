@@ -5,16 +5,15 @@ import { useColors } from "./hooks/useColors";
 import clsx from "clsx";
 
 function App() {
-  const [touches, setTouches] = useState<TouchList>();
+  const [touches, setTouches] = useState<React.TouchList>();
   const [count, setCount] = useState(3);
   const [isCountingDown, setIsCountingDown] = useState(false);
   const [winner, setWinner] = useState<number | null>(null);
   const { getColor, resetColors } = useColors();
 
-  const onChange = (event: React.SyntheticEvent) => {
+  const onChange = (event: React.TouchEvent<HTMLDivElement>) => {
     event.preventDefault();
     if (winner === null) {
-      //@ts-expect-error react is dumb
       setTouches(event.touches);
     }
   };
@@ -43,7 +42,7 @@ function App() {
         setIsCountingDown(false);
       }
     }
-  }, [touches?.length, winner]);
+  }, [touches, winner, count]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
