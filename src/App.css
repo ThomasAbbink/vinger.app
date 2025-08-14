@@ -17,12 +17,12 @@
 
 .circle {
   --bgColor: "white";
-  border-radius: 99999px;
+  border-radius: 100%;
   background: var(--bgColor);
   width: 8rem;
   height: 8rem;
   position: absolute;
-  transform: translate(-50%, -50%);
+  translate: -50% -50%;
 }
 
 .count {
@@ -30,6 +30,7 @@
 }
 
 .text {
+  position: absolute;
   z-index: 99;
   text-shadow: white 0 0 10px;
   user-select: none;

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { useColors } from "./hooks/useColors";
+import { AnimatePresence, motion } from "motion/react";
 
 import clsx from "clsx";
 
@@ -12,17 +13,16 @@ function App() {
   const { getColor, resetColors } = useColors();
 
   const onChange = (event: React.TouchEvent<HTMLDivElement>) => {
-    event.preventDefault();
     if (winner === null) {
       setTouches(event.touches);
     }
   };
 
-  useEffect(() => {
-    if (touches?.length === 0) {
-      resetColors();
-    }
-  }, [touches, resetColors]);
+  const reset = useCallback(() => {
+    setWinner(null);
+    setTouches(undefined);
+    resetColors();
+  }, [resetColors]);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -31,26 +31,28 @@ function App() {
       }
     }, 1000);
     return () => clearInterval(id);
-  }, [isCountingDown]);
+  }, [isCountingDown, touches?.length]);
 
   useEffect(() => {
     setCount(3);
     if (winner === null) {
-      if (touches && touches?.length > 1) {
+      if (touches?.length && touches?.length > 1) {
         setIsCountingDown(true);
       } else {
         setIsCountingDown(false);
       }
     }
-  }, [touches, winner, count]);
+  }, [touches?.length, winner]);
 
+  //reset to initial
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setWinner(null);
-      setTouches(undefined);
-    }, 3000);
-    return () => clearTimeout(timeout);
-  }, [winner]);
+    if (winner !== null) {
+      const timeout = setTimeout(() => {
+        reset();
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [winner, reset]);
 
   useEffect(() => {
     if (count === 0 && touches?.length !== undefined) {
@@ -68,30 +70,54 @@ function App() {
       onTouchEnd={onChange}
       onTouchCancel={onChange}
     >
-      {touches &&
-        Object.entries(touches).map(([index, touch]) => {
-          return (
-            <div
-              key={index}
-              className={clsx(
-                "circle",
-                parseInt(index) === winner && "winner neon"
-              )}
-              style={{
-                left: touch.clientX,
-                top: touch.clientY,
-                //@ts-expect-error this does work
-                "--bgColor": getColor(index),
-              }}
-            ></div>
-          );
-        })}
-      {isCountingDown && count > 0 && (
-        <span className="count text">{count}</span>
-      )}
-      {!isCountingDown && !winner && (
-        <span className="text">Klaar om te vingeren?</span>
-      )}
+      <AnimatePresence>
+        {touches &&
+          Object.entries(touches).map(([index, touch]) => {
+            return (
+              <motion.div
+                exit={{ scale: 0, transition: { duration: 0.5 } }}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                key={touch.identifier}
+                className={clsx(
+                  "circle",
+                  parseInt(index) === winner && "winner neon"
+                )}
+                style={{
+                  left: touch.clientX,
+                  top: touch.clientY,
+                  //@ts-expect-error this does work
+                  "--bgColor": getColor(touch.identifier),
+                }}
+              ></motion.div>
+            );
+          })}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isCountingDown && count > 0 && (
+          <motion.span
+            exit={{ scale: 0, transition: { duration: 0.1 } }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 0.7 + 0.2 * count }}
+            className="count text"
+          >
+            {count}
+          </motion.span>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {!isCountingDown && !winner && (!touches || touches?.length <= 1) && (
+          <motion.span
+            exit={{ scale: 0, transition: { duration: 0.1 } }}
+            initial={{ scale: 0.1 }}
+            animate={{ scale: 1 }}
+            className="text"
+          >
+            Klaar om te vingeren?
+          </motion.span>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
