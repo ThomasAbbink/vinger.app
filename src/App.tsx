@@ -73,16 +73,24 @@ function App() {
       <AnimatePresence>
         {touches &&
           Object.entries(touches).map(([index, touch]) => {
+            const isWinner = parseInt(index) === winner;
             return (
               <motion.div
                 exit={{ scale: 0, transition: { duration: 0.5 } }}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
+                initial={{ scale: 0, rotate: isWinner ? 360 : 0 }}
+                animate={{
+                  scale: isWinner ? 1.2 : 1,
+                  rotate: isWinner ? 360 : 0,
+                }}
+                transition={{
+                  rotate: {
+                    repeat: isWinner ? Infinity : 0,
+                    duration: 1,
+                    ease: "linear",
+                  },
+                }}
                 key={touch.identifier}
-                className={clsx(
-                  "circle",
-                  parseInt(index) === winner && "winner neon"
-                )}
+                className={clsx("circle", isWinner && "winner neon")}
                 style={{
                   left: touch.clientX,
                   top: touch.clientY,

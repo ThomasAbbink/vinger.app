@@ -43,8 +43,9 @@
 }
 
 .neon {
-  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #bc13fe,
-    0 0 0.8rem #bc13fe, 0 0 2.8rem #bc13fe, inset 0 0 1.3rem #bc13fe;
+  --bgColor: "white";
+  box-shadow: 0 0 0.1rem #fff, 0 0 0.3rem #fff, 0 0 0.7rem #fff,
+    0.3rem 0.3rem 2rem var(--bgColor), 0rem -0.3rem 2rem var(--bgColor);
 }
 
 @keyframes pulsate {
