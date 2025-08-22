@@ -13,16 +13,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
 }
 
 .circle {
-  --bgColor: "white";
+  --bgColor: white;
   border-radius: 100%;
   background: var(--bgColor);
   width: 8rem;
   height: 8rem;
   position: absolute;
   translate: -50% -50%;
+  user-select: none;
+  touch-action: none;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
 }
 
 .count {
@@ -35,7 +43,9 @@
   text-shadow: white 0 0 10px;
   user-select: none;
   cursor: none;
-  color: "white";
+  color: white;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
 }
 
 .winner {
@@ -43,7 +53,7 @@
 }
 
 .neon {
-  --bgColor: "white";
+  --bgColor: white;
   box-shadow: 0 0 0.1rem #fff, 0 0 0.3rem #fff, 0 0 0.7rem #fff,
     0.3rem 0.3rem 2rem var(--bgColor), 0rem -0.3rem 2rem var(--bgColor);
 }
