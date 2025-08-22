@@ -21,7 +21,7 @@
 
 .circle {
   --bgColor: white;
-  border-radius: 100%;
+
   background: var(--bgColor);
   width: 8rem;
   height: 8rem;
@@ -48,14 +48,14 @@
   -webkit-touch-callout: none !important;
 }
 
-.winner {
+/* .winner {
   animation: pulsate 1s infinite ease-in-out alternate;
-}
+} */
 
 .neon {
   --bgColor: white;
   box-shadow: 0 0 0.1rem #fff, 0 0 0.3rem #fff, 0 0 0.7rem #fff,
-    0.3rem 0.3rem 2rem var(--bgColor), 0rem -0.3rem 2rem var(--bgColor);
+    0.3rem 0.3rem 2rem var(--bgColor), 0rem -0.3rem 2rem #fff;
 }
 
 @keyframes pulsate {

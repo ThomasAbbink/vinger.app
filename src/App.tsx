@@ -4,6 +4,13 @@ import { useColors } from "./hooks/useColors";
 import { AnimatePresence, motion } from "motion/react";
 
 import clsx from "clsx";
+function isIosSafari() {
+  const ua = (window.navigator && navigator.userAgent) || "";
+  const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+  const webkit = !!ua.match(/WebKit/i);
+  const iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
+  return iOSSafari;
+}
 
 function App() {
   const [touches, setTouches] = useState<React.TouchList>();
@@ -13,6 +20,9 @@ function App() {
   const { getColor, resetColors } = useColors();
 
   const onChange = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (isIosSafari()) {
+      event.preventDefault();
+    }
     if (winner === null) {
       setTouches(event.touches);
     }
@@ -76,16 +86,36 @@ function App() {
             const isWinner = parseInt(index) === winner;
             return (
               <motion.div
-                exit={{ scale: 0, transition: { duration: 0.5 } }}
-                initial={{ scale: 0, rotate: isWinner ? 360 : 0 }}
+                exit={{ scale: 0, transition: { duration: 0.2 } }}
+                initial={{
+                  scale: 0,
+                  borderRadius: "100%",
+                  rotate: isWinner ? 360 : 0,
+                }}
                 animate={{
                   scale: isWinner ? 1.2 : 1,
                   rotate: isWinner ? 360 : 0,
+                  borderRadius: isWinner
+                    ? ["40%", "5%", "40%", "5%", "40%"]
+                    : "100%",
                 }}
                 transition={{
+                  scale: {
+                    bounce: 0.5,
+                    type: "spring",
+                    visualDuration: 0.15,
+                  },
+                  borderRadius: {
+                    times: [0, 0.2, 0.5, 0.8, 1],
+                    repeat: Infinity,
+                    repeatDelay: 0,
+                    duration: 2,
+                    ease: "linear",
+                  },
                   rotate: {
-                    repeat: isWinner ? Infinity : 0,
-                    duration: 1,
+                    times: [0, 0.2, 0.5, 0.8, 1],
+                    repeat: Infinity,
+                    duration: 2,
                     ease: "linear",
                   },
                 }}
