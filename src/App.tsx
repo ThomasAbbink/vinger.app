@@ -113,9 +113,10 @@ function App() {
                     ease: "linear",
                   },
                   rotate: {
-                    times: [0, 0.2, 0.5, 0.8, 1],
+                    // times: [0, 0.2, 0.5, 0.8, 1],
                     repeat: Infinity,
-                    duration: 2,
+                    repeatType: "reverse",
+                    duration: 1,
                     ease: "linear",
                   },
                 }}
