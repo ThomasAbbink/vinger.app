@@ -33,6 +33,18 @@
   -webkit-touch-callout: none !important;
 }
 
+.vinger {
+  position: absolute;
+  /* translate: -50% -50%; */
+  user-select: none;
+  touch-action: none;
+  border-radius: 100%;
+  width: 10rem;
+  height: 10rem;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
 .count {
   font-size: 8rem;
 }
