@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Finger } from "./finger-types";
 import { motion } from "motion/react";
 
-export const Circle = ({ isWinner, x, y, id, color }: Finger) => {
+export const Circle = ({ isWinner, x, y, color }: Finger) => {
   return (
     <motion.div
       exit={{ scale: 0, transition: { duration: 0.2 } }}
@@ -37,7 +37,6 @@ export const Circle = ({ isWinner, x, y, id, color }: Finger) => {
           ease: "linear",
         },
       }}
-      key={id}
       className={clsx("circle", isWinner && "winner neon")}
       style={{
         left: x,
