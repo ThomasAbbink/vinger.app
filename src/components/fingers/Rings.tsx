@@ -45,7 +45,7 @@ export const Rings = ({ x, y, color, isWinner }: Finger) => {
       opacity: 1,
       transition: {
         pathLength: {
-          delay: 1.0 - custom * 0.1,
+          delay: custom * 0.1,
           duration: 0.4,
           ease: "easeInOut",
         },
@@ -96,11 +96,11 @@ export const Rings = ({ x, y, color, isWinner }: Finger) => {
         translate: "-50svw -50svh",
       }}
     >
-      {Array.from({ length: 10 }).map((_, index) => (
+      {Array.from({ length: 8 }).map((_, index) => (
         <motion.circle
           cx="50"
           cy="50"
-          r={3 + index * 5}
+          r={40.5 - index * 4.5}
           initial="hidden"
           animate={isWinner ? "winner" : "visible"}
           exit="exit"
