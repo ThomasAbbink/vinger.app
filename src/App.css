@@ -3,10 +3,11 @@
   padding: 2rem;
   text-align: center;
   overflow: hidden;
+  --bgColor: rgb(23, 9, 4);
 }
 
 .play-area {
-  background: rgb(23, 9, 4);
+  background: var(--bgColor);
   inset: 0;
   position: absolute;
   overflow: hidden;
