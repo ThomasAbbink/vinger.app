@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 
 export const useColors = () => {
   const pickedColors = useRef<Map<string, string>>(new Map());
@@ -17,9 +17,9 @@ export const useColors = () => {
     return color;
   };
 
-  const resetColors = () => {
+  const resetColors = useCallback(() => {
     pickedColors.current = new Map();
-  };
+  }, []);
 
   return { getColor, resetColors };
 };
