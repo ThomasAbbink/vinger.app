@@ -7,7 +7,7 @@ type Props = {
   color: string;
 };
 
-export const Vinger = ({ x, y, color, isWinner }: Props) => {
+export const Rings = ({ x, y, color, isWinner }: Props) => {
   const ringVariants: Variants = {
     hidden: {
       pathLength: 0,

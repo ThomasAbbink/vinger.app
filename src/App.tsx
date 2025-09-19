@@ -1,148 +1,54 @@
-import { useCallback, useEffect, useState } from "react";
 import "./App.css";
-import { useColors } from "./hooks/useColors";
-import { AnimatePresence, motion } from "motion/react";
 
-import { Vinger } from "./Vinger";
-function isIosSafari() {
-  const ua = (window.navigator && navigator.userAgent) || "";
-  const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
-  const webkit = !!ua.match(/WebKit/i);
-  const iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
-  return iOSSafari;
-}
+import { AnimatePresence, motion } from "motion/react";
+import { Rings } from "./components/fingers";
+import { useGame } from "./hooks/useGame";
 
 function App() {
-  const [touches, setTouches] = useState<React.TouchList>();
-  const [count, setCount] = useState(3);
-  const [isCountingDown, setIsCountingDown] = useState(false);
-  const [winner, setWinner] = useState<number | null>(null);
-  const { getColor, resetColors } = useColors();
-
-  const onChange = (event: React.TouchEvent<HTMLDivElement>) => {
-    if (isIosSafari()) {
-      event.preventDefault();
-    }
-    if (winner === null) {
-      setTouches(event.touches);
-    }
-  };
-
-  const reset = useCallback(() => {
-    setWinner(null);
-    setTouches(undefined);
-    resetColors();
-  }, [resetColors]);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      if (isCountingDown) {
-        setCount((current) => current - 1);
-      }
-    }, 1000);
-    return () => clearInterval(id);
-  }, [isCountingDown, touches?.length]);
-
-  useEffect(() => {
-    setCount(3);
-    if (winner === null) {
-      if (touches?.length && touches?.length > 1) {
-        setIsCountingDown(true);
-      } else {
-        setIsCountingDown(false);
-      }
-    }
-  }, [touches?.length, winner]);
-
-  //reset to initial
-  useEffect(() => {
-    if (winner !== null) {
-      const timeout = setTimeout(() => {
-        reset();
-      }, 5000);
-      return () => clearTimeout(timeout);
-    }
-  }, [winner, reset]);
-
-  useEffect(() => {
-    if (count === 0 && touches?.length !== undefined) {
-      setIsCountingDown(false);
-      const winner = Math.floor(Math.random() * touches?.length || 0);
-      setWinner(winner);
-    }
-  }, [count, touches?.length]);
+  const {
+    onTouchChange,
+    getColor,
+    touches,
+    winner,
+    showCountdown,
+    count,
+    showStartText,
+  } = useGame();
 
   return (
     <div
       className="play-area"
-      onTouchMove={onChange}
-      onTouchStart={onChange}
-      onTouchEnd={onChange}
-      onTouchCancel={onChange}
+      onTouchMove={onTouchChange}
+      onTouchStart={onTouchChange}
+      onTouchEnd={onTouchChange}
+      onTouchCancel={onTouchChange}
     >
       <AnimatePresence>
         {touches &&
           Object.entries(touches).map(([index, touch]) => {
             const isWinner = parseInt(index) === winner;
             return (
-              <Vinger
+              <Rings
                 isWinner={isWinner}
                 x={touch.clientX}
                 y={touch.clientY}
                 key={touch.identifier}
                 color={getColor(touch.identifier.toString())}
               />
-
-              // <motion.div
-              //   exit={{ scale: 0, transition: { duration: 0.2 } }}
-              //   initial={{
-              //     scale: 0,
-              //     borderRadius: "100%",
-              //     rotate: isWinner ? 360 : 0,
-              //   }}
-              //   animate={{
-              //     scale: isWinner ? 1.2 : 1,
-              //     rotate: isWinner ? 360 : 0,
-              //     borderRadius: isWinner
-              //       ? ["40%", "5%", "40%", "5%", "40%"]
-              //       : "100%",
-              //   }}
-              //   transition={{
-              //     scale: {
-              //       bounce: 0.5,
-              //       type: "spring",
-              //       visualDuration: 0.15,
-              //     },
-              //     borderRadius: {
-              //       times: [0, 0.2, 0.5, 0.8, 1],
-              //       repeat: Infinity,
-              //       repeatDelay: 0,
-              //       duration: 2,
-              //       ease: "linear",
-              //     },
-              //     rotate: {
-              //       // times: [0, 0.2, 0.5, 0.8, 1],
-              //       repeat: Infinity,
-              //       repeatType: "reverse",
-              //       duration: 1,
-              //       ease: "linear",
-              //     },
-              //   }}
+              // <Circle
+              //   id={touch.identifier.toString()}
+              //   isWinner={isWinner}
+              //   x={touch.clientX}
+              //   y={touch.clientY}
               //   key={touch.identifier}
-              //   className={clsx("circle", isWinner && "winner neon")}
-              //   style={{
-              //     left: touch.clientX,
-              //     top: touch.clientY,
-              //     //@ts-expect-error this does work
-              //     "--bgColor": getColor(touch.identifier),
-              //   }}
-              // ></motion.div>
+              //   color={getColor(touch.identifier.toString())}
+              // />
             );
           })}
       </AnimatePresence>
 
       <AnimatePresence>
-        {isCountingDown && count > 0 && (
+        {showCountdown && (
           <motion.span
             exit={{ scale: 0, transition: { duration: 0.1 } }}
             initial={{ scale: 0 }}
@@ -154,7 +60,7 @@ function App() {
         )}
       </AnimatePresence>
       <AnimatePresence>
-        {!isCountingDown && !winner && (!touches || touches?.length <= 1) && (
+        {showStartText && (
           <motion.span
             exit={{ scale: 0, transition: { duration: 0.1 } }}
             initial={{ scale: 0.1 }}
