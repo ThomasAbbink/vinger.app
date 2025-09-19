@@ -1,13 +1,7 @@
 import { motion, Variants } from "motion/react";
+import { Finger } from "./finger-types";
 
-type Props = {
-  x: number;
-  y: number;
-  isWinner: boolean;
-  color: string;
-};
-
-export const Rings = ({ x, y, color, isWinner }: Props) => {
+export const Rings = ({ x, y, color, isWinner }: Finger) => {
   const ringVariants: Variants = {
     hidden: {
       pathLength: 0,

@@ -3,5 +3,4 @@ export type Finger = {
   y: number;
   color: string;
   isWinner: boolean;
-  id: string;
 };

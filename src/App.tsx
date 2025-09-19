@@ -1,18 +1,18 @@
 import "./App.css";
 
 import { AnimatePresence, motion } from "motion/react";
-import { Rings } from "./components/fingers";
 import { useGame } from "./hooks/useGame";
 
 function App() {
   const {
-    onTouchChange,
+    count,
     getColor,
+    getFingerComponent,
+    onTouchChange,
+    showCountdown,
+    showStartText,
     touches,
     winner,
-    showCountdown,
-    count,
-    showStartText,
   } = useGame();
 
   return (
@@ -27,22 +27,17 @@ function App() {
         {touches &&
           Object.entries(touches).map(([index, touch]) => {
             const isWinner = parseInt(index) === winner;
+            const FingerComponent = getFingerComponent(
+              touch.identifier.toString()
+            );
             return (
-              <Rings
+              <FingerComponent
+                key={touch.identifier}
                 isWinner={isWinner}
                 x={touch.clientX}
                 y={touch.clientY}
-                key={touch.identifier}
                 color={getColor(touch.identifier.toString())}
               />
-              // <Circle
-              //   id={touch.identifier.toString()}
-              //   isWinner={isWinner}
-              //   x={touch.clientX}
-              //   y={touch.clientY}
-              //   key={touch.identifier}
-              //   color={getColor(touch.identifier.toString())}
-              // />
             );
           })}
       </AnimatePresence>

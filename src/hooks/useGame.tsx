@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useColors } from "./useColors";
+import { useFinger } from "./useFinger";
 
 export const useGame = () => {
   const [touches, setTouches] = useState<React.TouchList>();
   const { getColor, resetColors } = useColors();
+  const { getFingerComponent, resetFingerComponents } = useFinger();
   const [count, setCount] = useState(3);
   const [isCountingDown, setIsCountingDown] = useState(false);
   const [winner, setWinner] = useState<number | null>(null);
@@ -25,7 +27,8 @@ export const useGame = () => {
     setWinner(null);
     setTouches(undefined);
     resetColors();
-  }, [resetColors]);
+    resetFingerComponents();
+  }, [resetColors, resetFingerComponents]);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -49,6 +52,7 @@ export const useGame = () => {
 
   //reset to initial
   useEffect(() => {
+    console.log("reset");
     if (winner !== null) {
       const timeout = setTimeout(() => {
         reset();
@@ -66,18 +70,19 @@ export const useGame = () => {
   }, [count, touches?.length]);
 
   return {
-    touches,
-    setTouches,
     count,
-    setCount,
-    isCountingDown,
-    setIsCountingDown,
-    onTouchChange,
     getColor,
-    winner,
+    getFingerComponent,
+    isCountingDown,
+    onTouchChange,
+    setCount,
+    setIsCountingDown,
+    setTouches,
     showCountdown: isCountingDown && count > 0,
     showStartText:
       !isCountingDown && !winner && (!touches || touches?.length <= 1),
+    touches,
+    winner,
   };
 };
 
