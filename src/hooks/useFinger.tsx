@@ -1,5 +1,6 @@
 import { useCallback, useRef } from "react";
 import { Circle, Rings } from "../components/fingers";
+import { Hash } from "../components/fingers/Hash";
 
 export const useFinger = () => {
   const pickedFingers = useRef<Map<string, FingerComponent>>(new Map());
@@ -24,5 +25,5 @@ export const useFinger = () => {
   return { getFingerComponent, resetFingerComponents };
 };
 
-const fingerComponents = [Rings, Circle] as const;
+const fingerComponents = [Rings, Circle, Hash] as const;
 type FingerComponent = (typeof fingerComponents)[number];

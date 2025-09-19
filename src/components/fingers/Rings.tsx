@@ -98,6 +98,7 @@ export const Rings = ({ x, y, color, isWinner }: Finger) => {
     >
       {Array.from({ length: 8 }).map((_, index) => (
         <motion.circle
+          key={`ring-${index}`}
           cx="50"
           cy="50"
           r={40.5 - index * 4.5}
