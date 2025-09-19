@@ -1,6 +1,5 @@
 import "./App.css";
-
-import { Hash } from "./components/fingers/Hash";
+import { Azul } from "./components/fingers/Azul";
 
 function DevApp() {
   const touch = {
@@ -10,7 +9,7 @@ function DevApp() {
   };
   return (
     <div className="play-area">
-      <Hash x={touch.clientX} y={touch.clientY} color="white" isWinner={true} />
+      <Azul x={touch.clientX} y={touch.clientY} color="white" isWinner={true} />
     </div>
   );
 }
