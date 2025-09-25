@@ -50,7 +50,7 @@ export const Rings = ({ x, y, color, isWinner }: Finger) => {
           ease: "easeInOut",
         },
         opacity: {
-          delay: 0,
+          delay: custom * 0.1,
           duration: 0.1,
           ease: "easeOut",
         },
@@ -90,6 +90,8 @@ export const Rings = ({ x, y, color, isWinner }: Finger) => {
       variants={svgVariants}
       animate={isWinner && "winner"}
       exit="exit"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       style={{
         x,
         y,
